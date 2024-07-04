@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private const float kSpeed = 0.1f;
+    private const float kSpeed = 0.05f;
 
     private const float kRotationSpeed = 1.0f;
     
