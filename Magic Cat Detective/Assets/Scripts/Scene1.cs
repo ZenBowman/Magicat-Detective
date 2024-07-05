@@ -7,6 +7,7 @@ public class Scene1 : MonoBehaviour
 {
 	private TextMeshProUGUI textMesh;
 	private GameObject badger;
+	private GameObject badgerWaypoint1;
     private float timeSinceStateTransition = 0.0f;
 
 	enum SceneState {
@@ -20,8 +21,11 @@ public class Scene1 : MonoBehaviour
     {	
 		state = SceneState.INITIAL;
         textMesh = (TextMeshProUGUI)FindObjectOfType(typeof(TextMeshProUGUI));
+
 		badger = GameObject.Find("Badger");
 		badger.SetActive(false);
+
+		badgerWaypoint1 = GameObject.Find("BadgerWaypoint1");
     }
 
 	void SwitchStateTo(SceneState newState) {
@@ -51,6 +55,15 @@ public class Scene1 : MonoBehaviour
 		else if (state == SceneState.APPLEKIT) {
 			if (timeSinceStateTransition > 5.0) {
 				SwitchStateTo(SceneState.BADGER_APPEARS);
+			}
+		}
+		else if (state == SceneState.BADGER_APPEARS) {
+			Vector3 xzPosition = badger.transform.position;
+			xzPosition.y = 0.0f;
+			Vector3 direction = badgerWaypoint1.transform.position - xzPosition;
+			if (direction.magnitude > 10.0f) {
+				Debug.Log("Direction = " + direction.normalized);
+				badger.transform.position += direction.normalized * 5 * Time.deltaTime;
 			}
 		}
     }
